@@ -10,6 +10,28 @@
 
 module.exports = function (app) {
 
+  let mongoose = require('mongoose');
+  mongoose.connect(process.env.DB, { useNewUrlparser: true, useUnifiedTopology: true });
+
+  const bookSchema = new mongoose.Schema({
+    title: {
+      type: String,
+      required: true
+    },
+    commentcount :{
+      type: Number,
+      required: true
+    }
+  })
+
+  const Book = mongoose.model('Book', bookSchema);
+
+  app.use( function( req, res, next) {
+    console.log(req.method + " " + req.path);
+    console.log(req.body);
+    next();
+  })
+
   app.route('/api/books')
     .get(function (req, res){
       //response will be array of book objects
