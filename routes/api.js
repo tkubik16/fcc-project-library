@@ -8,6 +8,8 @@
 
 'use strict';
 
+const { log } = require('console');
+
 module.exports = function (app) {
 
   let mongoose = require('mongoose');
@@ -146,14 +148,13 @@ module.exports = function (app) {
               comments: [...commentArray],
               commentcount: newCount
             }
-          }
-          
-          let book = await Book
+            let book = await Book
             .findByIdAndUpdate( bookid, update, {
               new: true,
               includeResultMetadata: true
             })
             .exec();
+            console.log(book);
             if( book.lastErrorObject.updatedExisting ){
               //console.log(book.value);
               res.json({
@@ -166,6 +167,13 @@ module.exports = function (app) {
             else{
               res.send('no book exists');
             }
+
+          }
+          else{
+            res.send('no book exists');
+          }
+          
+          
           
         }
       }
@@ -183,8 +191,13 @@ module.exports = function (app) {
         let book = await Book
           .findByIdAndDelete( bookid )
           .exec();
-        //console.log(book);
-        res.send('delete successful');
+        console.log(book);
+        if( book == null ){
+          res.send('no book exists');
+        }
+        else{
+          res.send('delete successful');
+        }
       }
     });
   

@@ -188,7 +188,7 @@ suite('Functional Tests', function() {
       test('Test POST /api/books/[id] with comment, id not in db', function(done){
         chai.request(server)
           .keepOpen()
-          .post('/api/books/asdfasd')
+          .post('/api/books/6519c391d0e9ca1c89c1ee99')
           .type('form')
           .send({
             comment: 'The book is pretty good.'
