@@ -8,8 +8,6 @@
 
 'use strict';
 
-const { log } = require('console');
-
 module.exports = function (app) {
 
   let mongoose = require('mongoose');
@@ -32,7 +30,7 @@ module.exports = function (app) {
   const Book = mongoose.model('Book', bookSchema);
 
   app.use( function( req, res, next) {
-    //console.log(req.method + " " + req.path);
+    console.log(req.method + " " + req.path);
     //console.log(req.body);
     next();
   })
@@ -112,7 +110,14 @@ module.exports = function (app) {
             comments: 1
           })
           .exec();
-        res.send(book);
+        console.log(book);
+        if( book == null ){
+          res.send('no book exists');
+        }
+        else{
+          res.send(book);
+        }
+        
       }
     })
     
@@ -154,7 +159,7 @@ module.exports = function (app) {
               includeResultMetadata: true
             })
             .exec();
-            console.log(book);
+            
             if( book.lastErrorObject.updatedExisting ){
               //console.log(book.value);
               res.json({
